@@ -36,6 +36,7 @@ const circles = svg
     .attr("stroke", 'plum')
     .attr("stroke-width", 5)
     .attr("stroke-opacity", 0.3)
+    
 /// text on top of the circles 
 const text = svg 
   .selectAll('text')
@@ -45,6 +46,7 @@ const text = svg
     .attr("alignment-baseline", "middle")
     .style("font-family", 'sans-serif')
     .style('fill', "white")
+    .style("pointer-events", "none") // can't click on the text
     .text(d => d.id)
 
 
@@ -70,5 +72,14 @@ const simulation = d3.forceSimulation(nodes)
       .attr("y1", d => d.source.y)
       .attr('x2', d => d.target.x)
       .attr('y2', d => d.target.y)
-
   })
+
+/// Drag interaction on the circles ///
+const dragInteraction = d3.drag()
+  .on('drag', (event, node) => {
+    node.fx = event.x;
+    node.fy = event.y;
+    simulation.alpha(1);
+    simulation.restart()
+  })
+circles.call(dragInteraction)
