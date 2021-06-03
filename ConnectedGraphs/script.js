@@ -9,9 +9,68 @@ Architecture:
 3. Secondary graph dependent on the main graph 
   This graph should be dependent on the main graph. When one element of the 
   main graph is clicked, it should update or create the secondary graph, which 
-  uses data that the clicked part of the main graph uses
-  
+  uses data that the clicked part of the main graph uses 
 */
+
+
+
+
+
+/*****************************************************************************/ 
+/******************** Constructing an Event Emitter Example ******************/
+/*****************************************************************************
+Notes: Would this be used like so: register an event that will do something (e.g. update a graph in a certain way)
+which we end up doing over and over again in the code; then call (trigger) that named event each time we need to 
+perform that data update? E.g. we call a graph update on click in 2+ different places in the code, so we wrap that 
+graph update in something like on 'graphUpdate' and then just do ee.trigger('graphUpdate'); ?
+*/
+
+class EventEmitter {
+  constructor() {
+    // this will have signature eventName: [list of callbacks]
+    this.events = {};
+  }
+
+  // register an event 
+  on(eventName, callback) {
+    // if we already have an event registered with the same name,
+    // just add the callback function to its array of callbacks 
+    if (this.events[eventName]) {
+      this.events[eventName].push(callback)
+    } else {
+      // if this is the first time we register an event with that name,
+      // create a new array with just the passed callback 
+      this.events[eventName] = [callback];
+    }
+  }
+
+  // call an event (trigger it)
+  trigger(eventName, ...rest) {
+    if (this.events[eventName]) {
+      this.events[eventName].forEach(cb => {
+        cb.apply(null, rest); // call the callback using apply to 
+      });
+    }
+  }
+}
+
+// create a new event emitter 
+const ee = new EventEmitter();
+// define what happens when an event with the name 'change' is triggered
+ee.on('change', () => {
+  console.log("Hello there")
+})
+
+// trigger an event with the name 'change'
+ee.trigger('change');
+
+
+/*****************************************************************************/ 
+
+
+
+
+
 
 const width = 1000;
 const height = 600;

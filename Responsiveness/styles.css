@@ -1,0 +1,22 @@
+body, * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/***************************************/
+/********** Dynamic Layout 1 ***********/
+/***************************************/
+#graph-wrapper-dynamic-layout-1 {
+  width: 90%;
+  margin: auto;
+}
+
+
+/***************************************/
+/********** Dynamic Layout 2 ***********/
+/***************************************/
+#graph-wrapper-dynamic-layout-2 {
+  width: 90%;
+  margin: auto;
+}
